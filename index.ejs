@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Management</h1>
+    
+    <h2>Add a New Book</h2>
+    <form action="/api/books" method="POST">
+        <input type="text" name="title" placeholder="Book Title" required>
+        <input type="text" name="author" placeholder="Author Name" required>
+        <button type="submit">Add Book</button>
+    </form>
+
+    <h2>Books</h2>
+    <ul>
+        <% books.forEach(book => { %>
+            <li>
+                <%= book.title %> by <%= book.author %>
+                <form action="/api/books/<%= book.id %>/reviews" method="POST" style="display: inline;">
+                    <input type="text" name="text" placeholder="Review Text" required>
+                    <input type="number" name="rating" placeholder="Rating (1-5)" min="1" max="5" required>
+                    <button type="submit">Add Review</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+
+    <h2>Authors</h2>
+    <ul>
+        <% authors.forEach(author => { %>
+            <li><%= author.name %></li>
+        <% }); %>
+    </ul>
+
+    <h2>Rcent Reviews</h2>
+    <ul>
+        <% reviews.forEach(review => { %>
+            <li>
+                Book ID: <%= review.bookId %>, Rating: <%= review.rating %>/5
+                <p><%= review.text %></p>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
